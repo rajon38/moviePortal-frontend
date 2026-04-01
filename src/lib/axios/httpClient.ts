@@ -16,7 +16,7 @@ async function tryRefreshToken(
     refreshToken: string
 ): Promise<void>
 {
-    if(!isTokenExpiringSoon(accessToken)) {
+    if(!(await isTokenExpiringSoon(accessToken))) {
         return;
     }
 
@@ -33,19 +33,21 @@ async function tryRefreshToken(
     }
 }
 
-const axiosInstance = async () => {
+const axiosInstance = async (includeCookieHeader = true) => {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;
     const refreshToken = cookieStore.get("refreshToken")?.value;
 
-    if(accessToken && refreshToken){
+    if(includeCookieHeader && accessToken && refreshToken){
         await tryRefreshToken(accessToken, refreshToken);
     }
 
-    const cookieHeader = cookieStore
-                                .getAll()
-                                .map((cookie) => `${cookie.name}=${cookie.value}`)
-                                .join("; ");    
+    const cookieHeader = includeCookieHeader
+        ? cookieStore
+            .getAll()
+            .map((cookie) => `${cookie.name}=${cookie.value}`)
+            .join("; ")
+        : "";
     // eg Cookie: "accessToken=abc123; refreshToken=def456"
 
     const instance = axios.create({
@@ -63,11 +65,12 @@ const axiosInstance = async () => {
 export interface ApiRequestOptions {
     params?: Record<string, unknown>;
     headers?: Record<string, string>;
+    withAuthCookie?: boolean;
 }
 
 const httpGet = async <TData>(endpoint: string, options?: ApiRequestOptions) : Promise<ApiResponse<TData>> => {
     try {     
-        const instance = await axiosInstance();   
+        const instance = await axiosInstance(options?.withAuthCookie ?? true);   
         const response = await instance.get<ApiResponse<TData>>(endpoint, {
             params: options?.params,
             headers: options?.headers,
@@ -81,7 +84,7 @@ const httpGet = async <TData>(endpoint: string, options?: ApiRequestOptions) : P
 
 const httpPost = async <TData>(endpoint: string, data: unknown, options?: ApiRequestOptions) : Promise<ApiResponse<TData>> => {
     try {
-        const instance = await axiosInstance();
+        const instance = await axiosInstance(options?.withAuthCookie ?? true);
         const response = await instance.post<ApiResponse<TData>>(endpoint, data, {
             params: options?.params,
             headers: options?.headers,
@@ -95,7 +98,7 @@ const httpPost = async <TData>(endpoint: string, data: unknown, options?: ApiReq
 
 const httpPut = async <TData>(endpoint: string, data: unknown, options?: ApiRequestOptions) : Promise<ApiResponse<TData>> => {
     try {
-        const instance = await axiosInstance();
+        const instance = await axiosInstance(options?.withAuthCookie ?? true);
         const response = await instance.put<ApiResponse<TData>>(endpoint, data, {
             params: options?.params,
             headers: options?.headers,
@@ -109,7 +112,7 @@ const httpPut = async <TData>(endpoint: string, data: unknown, options?: ApiRequ
 
 const httpPatch = async <TData>(endpoint: string, data: unknown, options?: ApiRequestOptions) : Promise<ApiResponse<TData>> => {
     try {
-        const instance = await axiosInstance();
+        const instance = await axiosInstance(options?.withAuthCookie ?? true);
         const response = await instance.patch<ApiResponse<TData>>(endpoint, data, {
             params: options?.params,
             headers: options?.headers,
@@ -124,7 +127,7 @@ const httpPatch = async <TData>(endpoint: string, data: unknown, options?: ApiRe
 
 const httpDelete =  async <TData>(endpoint: string, options?: ApiRequestOptions) : Promise<ApiResponse<TData>> => {
     try {
-        const instance = await axiosInstance();
+        const instance = await axiosInstance(options?.withAuthCookie ?? true);
         const response = await instance.delete<ApiResponse<TData>>(endpoint, {
             params: options?.params,
             headers: options?.headers,

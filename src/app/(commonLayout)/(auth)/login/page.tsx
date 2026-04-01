@@ -1,8 +1,16 @@
-const LoginPage = async () => {
+import LoginForm from "@/components/modules/Auth/LoginForm";
+import React from "react";
+
+interface LoginParams {
+    searchParams : Promise<{redirect ?: string; error?: string}>
+}
+
+const LoginPage = async ({ searchParams } : LoginParams) => {
+    const params = await searchParams;
+    const redirectPath = params.redirect;
+    const oauthError = params.error;
     return (
-        <div className="flex h-screen items-center justify-center">
-            <h1 className="text-4xl font-bold">Login Page</h1>
-        </div>
+        <LoginForm redirectPath={redirectPath} oauthError={oauthError} />
     );
 }
 

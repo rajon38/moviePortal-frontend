@@ -1,9 +1,12 @@
-const ResetPasswordPage = async () => {
-    return (
-        <div className="flex h-screen items-center justify-center">
-            <h1 className="text-4xl font-bold">Reset Password Page</h1>
-        </div>
-    );
+import ResetPasswordForm from "@/components/modules/Auth/ResetPasswordForm";
+
+interface ResetPasswordPageProps {
+    searchParams: Promise<{ email?: string }>;
+}
+
+const ResetPasswordPage = async ({ searchParams }: ResetPasswordPageProps) => {
+    const params = await searchParams;
+    return <ResetPasswordForm email={params.email} />;
 }
 
 export default ResetPasswordPage;

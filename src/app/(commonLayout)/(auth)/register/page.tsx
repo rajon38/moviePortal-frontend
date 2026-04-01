@@ -1,9 +1,7 @@
+import RegisterForm from "@/components/modules/Auth/RegisterForm";
+
 const RegisterPage = async () => {
-    return (
-        <div className="flex h-screen items-center justify-center">
-            <h1 className="text-4xl font-bold">Register Page</h1>
-        </div>
-    );
+    return <RegisterForm />;
 }
 
 export default RegisterPage;

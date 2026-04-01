@@ -1,9 +1,12 @@
-const VerifyEmailPage = async () => {
-    return (
-        <div className="flex h-screen items-center justify-center">
-            <h1 className="text-4xl font-bold">Verify Email Page</h1>
-        </div>
-    );
+import VerifyEmailForm from "@/components/modules/Auth/VerifyEmailForm";
+
+interface VerifyEmailPageProps {
+    searchParams: Promise<{ email?: string }>;
+}
+
+const VerifyEmailPage = async ({ searchParams }: VerifyEmailPageProps) => {
+    const params = await searchParams;
+    return <VerifyEmailForm email={params.email} />;
 }
 
 export default VerifyEmailPage;
