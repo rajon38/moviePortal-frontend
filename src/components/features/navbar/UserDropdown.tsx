@@ -47,35 +47,36 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-auto rounded-full p-0">
-                    <Avatar>
+                <Button variant="ghost" className="h-auto rounded-full p-0 hover:bg-slate-800">
+                    <Avatar className="h-8 w-8">
                         <AvatarImage src={user.image || undefined} alt={user.name || "User"} />
-                        <AvatarFallback>{getInitials(user.name, user.email)}</AvatarFallback>
+                        <AvatarFallback className="bg-red-600 text-white font-bold">{getInitials(user.name, user.email)}</AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end" className="w-56 min-w-56">
+            <DropdownMenuContent align="end" className="w-56 min-w-56 bg-slate-900 border-slate-800 text-white">
                 <DropdownMenuLabel>
-                    <p className="text-sm font-medium text-foreground">{user.name || "User"}</p>
-                    <p className="text-xs font-normal text-muted-foreground">{user.email}</p>
+                    <p className="text-sm font-medium text-white">{user.name || "User"}</p>
+                    <p className="text-xs font-normal text-gray-400">{user.email}</p>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator className="bg-slate-800" />
 
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-800 hover:text-red-400">
                     <Link href={getDashboardPathByRole(user.role)}>Dashboard</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-800 hover:text-red-400">
                     <Link href="/my-profile">My Profile</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-800 hover:text-red-400">
                     <Link href="/change-password">Change Password</Link>
                 </DropdownMenuItem>
 
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator className="bg-slate-800" />
 
                 <DropdownMenuItem
                     variant="destructive"
+                    className="cursor-pointer text-red-400 hover:bg-red-950 hover:text-red-500 focus:bg-red-950 focus:text-red-500"
                     onSelect={(event) => {
                         event.preventDefault();
                         startTransition(async () => {

@@ -42,7 +42,17 @@ export const getMyProfileAction = async (): Promise<IUserProfile | null> => {
     try {
         const response = await httpClient.get<IUserProfile>("/auth/me");
         return response.data;
-    } catch (error) {
+    } catch (error: unknown) {
+        if (
+            error &&
+            typeof error === "object" &&
+            "digest" in error &&
+            typeof error.digest === "string" &&
+            error.digest.includes("DYNAMIC_SERVER_USAGE")
+        ) {
+            return null;
+        }
+
         console.error("Failed to load profile:", error);
         return null;
     }

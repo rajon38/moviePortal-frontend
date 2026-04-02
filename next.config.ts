@@ -3,8 +3,6 @@ import type { NextConfig } from "next";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8001/api/v1";
 
 const nextConfig: NextConfig = {
-  reactCompiler: true,
-
   images: {
     remotePatterns: [
       {
@@ -15,6 +13,10 @@ const nextConfig: NextConfig = {
         protocol: "http",
         hostname: "localhost",
         port: "8001",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
       },
     ],
   },

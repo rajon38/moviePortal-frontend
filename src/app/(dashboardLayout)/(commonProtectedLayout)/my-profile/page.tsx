@@ -1,6 +1,8 @@
 import MyProfileForm from "@/components/modules/Auth/MyProfileForm";
 import { getMyProfileAction } from "./_action";
 
+export const dynamic = "force-dynamic";
+
 const MyProfilePage = async () => {
     const profile = await getMyProfileAction();
 

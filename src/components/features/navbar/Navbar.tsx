@@ -31,13 +31,14 @@ const Navbar = ({ user }: NavbarProps) => {
     }
 
     return (
-        <header className="sticky top-0 z-20 border-b bg-white/90 backdrop-blur">
+        <header className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950 shadow-lg">
             <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
-                <Link href="/" className="text-xl font-bold tracking-tight text-primary">
+                <Link href="/" className="flex items-center gap-2 text-xl font-bold tracking-tight text-red-500 hover:text-red-400 transition-colors">
+                    <span className="h-8 w-8 rounded bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center text-white font-black">C</span>
                     CinePlex
                 </Link>
 
-                <div className="hidden items-center gap-5 md:flex">
+                <div className="hidden items-center gap-8 md:flex">
                     {publicNavItems.map((item) => {
                         const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
 
@@ -46,8 +47,8 @@ const Navbar = ({ user }: NavbarProps) => {
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "text-sm font-medium text-slate-700 hover:text-primary",
-                                    isActive && "text-primary underline underline-offset-8"
+                                    "text-sm font-medium text-gray-300 hover:text-red-400 transition-colors",
+                                    isActive && "text-red-500 border-b-2 border-red-500 pb-1"
                                 )}
                             >
                                 {item.title}
@@ -60,10 +61,14 @@ const Navbar = ({ user }: NavbarProps) => {
                     ) : (
                         <>
                             <Link href="/register">
-                                <Button size="sm" variant="outline">Register</Button>
+                                <Button size="sm" variant="outline" className="border-gray-600 text-red-500 hover:bg-slate-800 hover:text-red-400">
+                                    Sign Up
+                                </Button>
                             </Link>
                             <Link href="/login">
-                                <Button size="sm">Login</Button>
+                                <Button size="sm" className="bg-red-600 hover:bg-red-700">
+                                    Sign In
+                                </Button>
                             </Link>
                         </>
                     )}
@@ -72,14 +77,14 @@ const Navbar = ({ user }: NavbarProps) => {
                 <div className="md:hidden">
                     <Sheet>
                         <SheetTrigger asChild>
-                            <Button size="icon" variant="outline" aria-label="Open menu">
+                            <Button size="icon" variant="ghost" className="text-gray-300 hover:text-red-400" aria-label="Open menu">
                                 <Menu className="size-4" />
                             </Button>
                         </SheetTrigger>
 
-                        <SheetContent side="right" className="w-72">
+                        <SheetContent side="right" className="w-72 bg-slate-900 border-l border-slate-800">
                             <SheetHeader>
-                                <SheetTitle>Menu</SheetTitle>
+                                <SheetTitle className="text-white">Menu</SheetTitle>
                             </SheetHeader>
 
                             <div className="space-y-2 px-4">
@@ -91,8 +96,8 @@ const Navbar = ({ user }: NavbarProps) => {
                                             <Link
                                                 href={item.href}
                                                 className={cn(
-                                                    "block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-primary",
-                                                    isActive && "bg-slate-100 text-primary"
+                                                    "block rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-slate-800 hover:text-red-400 transition-colors",
+                                                    isActive && "bg-slate-800 text-red-500"
                                                 )}
                                             >
                                                 {item.title}
@@ -106,7 +111,7 @@ const Navbar = ({ user }: NavbarProps) => {
                                         <SheetClose asChild>
                                             <Link
                                                 href="/my-profile"
-                                                className="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-primary"
+                                                className="block rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-slate-800 hover:text-red-400 transition-colors"
                                             >
                                                 My Profile
                                             </Link>
@@ -114,7 +119,7 @@ const Navbar = ({ user }: NavbarProps) => {
                                         <SheetClose asChild>
                                             <Link
                                                 href="/change-password"
-                                                className="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-primary"
+                                                className="block rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-slate-800 hover:text-red-400 transition-colors"
                                             >
                                                 Change Password
                                             </Link>
@@ -124,13 +129,17 @@ const Navbar = ({ user }: NavbarProps) => {
                                     <div className="grid grid-cols-2 gap-2 pt-2">
                                         <SheetClose asChild>
                                             <Link href="/register">
-                                                <Button variant="outline" className="w-full">Register</Button>
+                                                <Button variant="outline" className="w-full border-gray-600 text-gray-300 hover:bg-slate-800 hover:text-red-400">
+                                                    Sign Up
+                                                </Button>
                                             </Link>
                                         </SheetClose>
 
                                         <SheetClose asChild>
                                             <Link href="/login">
-                                                <Button className="w-full">Login</Button>
+                                                <Button className="w-full bg-red-600 hover:bg-red-700">
+                                                    Sign In
+                                                </Button>
                                             </Link>
                                         </SheetClose>
                                     </div>

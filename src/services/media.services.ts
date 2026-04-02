@@ -19,12 +19,25 @@ export interface IMediaListResult {
 export const getMediaList = async (params?: {
     type?: MediaType;
     search?: string;
+    searchTerm?: string;
     limit?: number;
     page?: number;
+    sortBy?: string;
+    sortOrder?: "asc" | "desc";
+    releaseYear?: number;
+    includes?: string | string[];
+    fields?: string[];
 }): Promise<IMediaListResult> => {
     try {
+        // Build query params, handling 'search' and 'searchTerm' alternatives
+        const queryParams = {
+            ...params,
+            search: params?.searchTerm || params?.search,
+            searchTerm: undefined, // Remove to avoid duplication
+        };
+
         const response = await httpClient.get<IMedia[]>(MEDIA_BASE_ENDPOINT, {
-            params,
+            params: queryParams,
             withAuthCookie: false,
         });
 

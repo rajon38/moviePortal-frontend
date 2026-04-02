@@ -11,6 +11,16 @@ if(!API_BASE_URL) {
     throw new Error('API_BASE_URL is not defined in environment variables');
 }
 
+const isDynamicServerUsageError = (error: unknown): boolean => {
+    return (
+        !!error &&
+        typeof error === "object" &&
+        "digest" in error &&
+        typeof error.digest === "string" &&
+        error.digest.includes("DYNAMIC_SERVER_USAGE")
+    );
+}
+
 async function tryRefreshToken(
     accessToken: string,
     refreshToken: string
@@ -34,6 +44,16 @@ async function tryRefreshToken(
 }
 
 const axiosInstance = async (includeCookieHeader = true) => {
+    if (!includeCookieHeader) {
+        return axios.create({
+            baseURL: API_BASE_URL,
+            timeout: 30000,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    }
+
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;
     const refreshToken = cookieStore.get("refreshToken")?.value;
@@ -42,12 +62,10 @@ const axiosInstance = async (includeCookieHeader = true) => {
         await tryRefreshToken(accessToken, refreshToken);
     }
 
-    const cookieHeader = includeCookieHeader
-        ? cookieStore
-            .getAll()
-            .map((cookie) => `${cookie.name}=${cookie.value}`)
-            .join("; ")
-        : "";
+    const cookieHeader = cookieStore
+        .getAll()
+        .map((cookie) => `${cookie.name}=${cookie.value}`)
+        .join("; ");
     // eg Cookie: "accessToken=abc123; refreshToken=def456"
 
     const instance = axios.create({
@@ -76,7 +94,10 @@ const httpGet = async <TData>(endpoint: string, options?: ApiRequestOptions) : P
             headers: options?.headers,
         });
         return response.data;
-    } catch (error) {       
+    } catch (error) {
+        if (isDynamicServerUsageError(error)) {
+            throw error;
+        }
         console.error(`GET request to ${endpoint} failed:`, error);
         throw error;
     }
@@ -91,6 +112,9 @@ const httpPost = async <TData>(endpoint: string, data: unknown, options?: ApiReq
         });
         return response.data;
     } catch (error) {
+        if (isDynamicServerUsageError(error)) {
+            throw error;
+        }
         console.error(`POST request to ${endpoint} failed:`, error);
         throw error;
     }
@@ -105,6 +129,9 @@ const httpPut = async <TData>(endpoint: string, data: unknown, options?: ApiRequ
         });
         return response.data;
     } catch (error) {
+        if (isDynamicServerUsageError(error)) {
+            throw error;
+        }
         console.error(`PUT request to ${endpoint} failed:`, error);
         throw error;
     }
@@ -120,6 +147,9 @@ const httpPatch = async <TData>(endpoint: string, data: unknown, options?: ApiRe
         return response.data;
     }
     catch (error) {
+        if (isDynamicServerUsageError(error)) {
+            throw error;
+        }
         console.error(`PATCH request to ${endpoint} failed:`, error);
         throw error;
     }
@@ -134,6 +164,9 @@ const httpDelete =  async <TData>(endpoint: string, options?: ApiRequestOptions)
         });
         return response.data;
     } catch (error) {
+        if (isDynamicServerUsageError(error)) {
+            throw error;
+        }
         console.error(`DELETE request to ${endpoint} failed:`, error);
         throw error;
     }
