@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getMediaById } from "@/services/media.services";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 interface MediaDetailPageProps {
     params: Promise<{ id: string }>;
@@ -16,6 +17,8 @@ const MediaDetailPage = async ({ params }: MediaDetailPageProps) => {
     if (!media) {
         notFound();
     }
+
+    const visibleReviews = (media.reviews || []).filter((review) => !review.isDeleted);
 
     return (
         <div className="min-h-screen bg-slate-50">
@@ -33,7 +36,37 @@ const MediaDetailPage = async ({ params }: MediaDetailPageProps) => {
                     </CardHeader>
 
                     <CardContent className="space-y-6">
+                        {media.imageUrl ? (
+                            <Image
+                                src={media.imageUrl}
+                                alt={media.title}
+                                width={1280}
+                                height={720}
+                                unoptimized
+                                className="h-64 w-full rounded-lg object-cover"
+                            />
+                        ) : null}
+
                         <p className="text-sm leading-7 text-muted-foreground">{media.description}</p>
+
+                        <div className="grid gap-3 rounded-lg border bg-muted/40 p-4 md:grid-cols-4">
+                            <div>
+                                <p className="text-xs text-muted-foreground">Average Rating</p>
+                                <p className="font-semibold">{media.avgRating ?? "N/A"}</p>
+                            </div>
+                            <div>
+                                <p className="text-xs text-muted-foreground">Reviews</p>
+                                <p className="font-semibold">{visibleReviews.length}</p>
+                            </div>
+                            <div>
+                                <p className="text-xs text-muted-foreground">Pricing</p>
+                                <p className="font-semibold">{media.pricing}</p>
+                            </div>
+                            <div>
+                                <p className="text-xs text-muted-foreground">Price</p>
+                                <p className="font-semibold">{media.price ?? 0}</p>
+                            </div>
+                        </div>
 
                         <div className="grid gap-4 md:grid-cols-2">
                             <div>
@@ -62,6 +95,29 @@ const MediaDetailPage = async ({ params }: MediaDetailPageProps) => {
                                 </Link>
                             </div>
                         )}
+
+                        <div>
+                            <h3 className="mb-3 font-semibold">Latest Reviews</h3>
+
+                            {visibleReviews.length === 0 ? (
+                                <p className="text-sm text-muted-foreground">No reviews yet.</p>
+                            ) : (
+                                <div className="space-y-3">
+                                    {visibleReviews.slice(0, 5).map((review) => (
+                                        <div key={review.id} className="rounded-lg border bg-white p-3">
+                                            <div className="flex items-center justify-between">
+                                                <p className="text-sm font-medium">{review.user?.name || "Anonymous"}</p>
+                                                <p className="text-xs text-muted-foreground">⭐ {review.rating}/5</p>
+                                            </div>
+                                            <p className="mt-1 text-sm text-muted-foreground">{review.content}</p>
+                                            <p className="mt-2 text-xs text-muted-foreground">
+                                                👍 {review._count?.likes ?? 0} • 💬 {review._count?.comments ?? 0}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </CardContent>
                 </Card>
             </div>

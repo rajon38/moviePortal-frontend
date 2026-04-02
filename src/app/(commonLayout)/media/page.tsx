@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { getMediaList } from "@/services/media.services";
 import { MediaType } from "@/types/media.types";
 import Link from "next/link";
+import Image from "next/image";
 
 interface MediaPageProps {
     searchParams: Promise<{ type?: MediaType; search?: string }>;
@@ -46,6 +47,20 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         {mediaResult.data.map((media) => (
                             <Card key={media.id} className="h-full">
+                                {media.imageUrl ? (
+                                    <Image
+                                        src={media.imageUrl}
+                                        alt={media.title}
+                                        width={640}
+                                        height={360}
+                                        unoptimized
+                                        className="h-44 w-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="flex h-44 w-full items-center justify-center bg-slate-200 text-xs text-slate-600">
+                                        No image available
+                                    </div>
+                                )}
                                 <CardHeader>
                                     <CardTitle className="line-clamp-1">{media.title}</CardTitle>
                                 </CardHeader>
@@ -57,6 +72,9 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                                         ))}
                                     </div>
                                     <p className="mt-3 text-xs text-muted-foreground">{media.releaseYear} • {media.type}</p>
+                                    <p className="mt-1 text-xs text-muted-foreground">
+                                        ⭐ {media.avgRating ?? "N/A"} • {media.reviews?.length ?? 0} review(s)
+                                    </p>
                                 </CardContent>
                                 <CardFooter className="justify-between">
                                     <Badge variant="outline">{media.pricing}</Badge>
