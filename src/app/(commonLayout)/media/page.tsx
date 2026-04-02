@@ -62,22 +62,22 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-950 text-white">
             <div className="mx-auto w-full max-w-7xl px-6 py-10">
                 <div className="mb-6">
-                    <h1 className="text-3xl font-bold">Media Library</h1>
-                    <p className="mt-2 text-sm text-muted-foreground">Browse all movies and series.</p>
+                    <h1 className="text-3xl font-bold text-white">Media Library</h1>
+                    <p className="mt-2 text-sm text-gray-400">Browse all movies and series.</p>
                 </div>
 
                 {/* Type Filter Buttons */}
                 <div className="mb-6 flex flex-wrap items-center gap-2">
-                    <Link href="/media" className={`rounded-full px-4 py-2 text-sm ${!selectedType ? "bg-primary text-white" : "bg-white text-slate-700 ring-1 ring-slate-200"}`}>
+                    <Link href="/media" className={`rounded-full px-4 py-2 text-sm ${!selectedType ? "bg-red-600 text-white" : "bg-slate-800 text-gray-300 ring-1 ring-slate-700"}`}>
                         All
                     </Link>
-                    <Link href={`/media?${buildQueryString({ type: "MOVIE", page: "1" })}`} className={`rounded-full px-4 py-2 text-sm ${selectedType === "MOVIE" ? "bg-primary text-white" : "bg-white text-slate-700 ring-1 ring-slate-200"}`}>
+                    <Link href={`/media?${buildQueryString({ type: "MOVIE", page: "1" })}`} className={`rounded-full px-4 py-2 text-sm ${selectedType === "MOVIE" ? "bg-red-600 text-white" : "bg-slate-800 text-gray-300 ring-1 ring-slate-700"}`}>
                         Movies
                     </Link>
-                    <Link href={`/media?${buildQueryString({ type: "SERIES", page: "1" })}`} className={`rounded-full px-4 py-2 text-sm ${selectedType === "SERIES" ? "bg-primary text-white" : "bg-white text-slate-700 ring-1 ring-slate-200"}`}>
+                    <Link href={`/media?${buildQueryString({ type: "SERIES", page: "1" })}`} className={`rounded-full px-4 py-2 text-sm ${selectedType === "SERIES" ? "bg-red-600 text-white" : "bg-slate-800 text-gray-300 ring-1 ring-slate-700"}`}>
                         Series
                     </Link>
                 </div>
@@ -85,33 +85,33 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                 <div className="flex gap-6">
                     {/* Sidebar Filters */}
                     <div className="w-64 flex-shrink-0">
-                        <div className="sticky top-20 space-y-6 rounded-lg bg-white p-4 ring-1 ring-slate-200">
+                        <div className="sticky top-20 space-y-6 rounded-lg bg-slate-900 p-4 ring-1 ring-slate-800">
                             {/* Search */}
                             <div>
-                                <form action="/media" method="GET" className="flex items-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+                                <form action="/media" method="GET" className="flex items-center rounded-lg border border-slate-700 bg-slate-800 px-3 py-2">
                                     <input
                                         type="text"
                                         name="searchTerm"
                                         placeholder="Search media..."
                                         defaultValue={searchTerm}
-                                        className="w-full bg-slate-50 text-sm placeholder-slate-500 outline-none"
+                                        className="w-full bg-slate-800 text-sm text-white placeholder-gray-500 outline-none"
                                     />
-                                    <button type="submit" className="ml-2 text-slate-600 hover:text-slate-900">
+                                    <button type="submit" className="ml-2 text-gray-400 hover:text-red-400">
                                         <Search className="h-4 w-4" />
                                     </button>
                                 </form>
                             </div>
-                            <div className="border-b pb-4">
-                                <h3 className="mb-3 text-sm font-semibold text-slate-900">Pagination</h3>
-                                <div className="space-y-2 text-xs text-slate-600">
-                                    <p>Page <span className="font-semibold text-slate-900">{currentPage}</span> of <span className="font-semibold text-slate-900">{Math.ceil(mediaResult.meta?.total || 0 / limit)}</span></p>
-                                    <p>Total <span className="font-semibold text-slate-900">{mediaResult.meta?.total || 0}</span> items</p>
+                            <div className="border-b border-slate-700 pb-4">
+                                <h3 className="mb-3 text-sm font-semibold text-red-400">Pagination</h3>
+                                <div className="space-y-2 text-xs text-gray-400">
+                                    <p>Page <span className="font-semibold text-white">{currentPage}</span> of <span className="font-semibold text-white">{Math.ceil(mediaResult.meta?.total || 0 / limit)}</span></p>
+                                    <p>Total <span className="font-semibold text-white">{mediaResult.meta?.total || 0}</span> items</p>
                                 </div>
                             </div>
 
                             {/* Sort By */}
-                            <div className="border-b pb-4">
-                                <h3 className="mb-3 text-sm font-semibold text-slate-900">Sort by</h3>
+                            <div className="border-b border-slate-700 pb-4">
+                                <h3 className="mb-3 text-sm font-semibold text-red-400">Sort by</h3>
                                 <div className="space-y-2">
                                     {[
                                         { label: "Newest", value: "createdAt" },
@@ -122,7 +122,7 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                                         <Link
                                             key={option.value}
                                             href={`/media?${buildQueryString({ sortBy: option.value, sortOrder: "desc", page: "1" })}`}
-                                            className={`block rounded px-2 py-1 text-xs transition-colors ${sortBy === option.value ? "bg-primary text-white font-medium" : "text-slate-700 hover:bg-slate-100"}`}
+                                            className={`block rounded px-2 py-1 text-xs transition-colors ${sortBy === option.value ? "bg-red-600 text-white font-medium" : "text-gray-400 hover:bg-slate-800 hover:text-white"}`}
                                         >
                                             {option.label}
                                         </Link>
@@ -131,14 +131,14 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                             </div>
 
                             {/* Items Per Page */}
-                            <div className="border-b pb-4">
-                                <h3 className="mb-3 text-sm font-semibold text-slate-900">Items per page</h3>
+                            <div className="border-b border-slate-700 pb-4">
+                                <h3 className="mb-3 text-sm font-semibold text-red-400">Items per page</h3>
                                 <div className="space-y-2">
                                     {[6, 12, 24, 48].map((val) => (
                                         <Link
                                             key={val}
                                             href={`/media?${buildQueryString({ limit: val.toString(), page: "1" })}`}
-                                            className={`block rounded px-2 py-1 text-xs transition-colors ${limit === val ? "bg-primary text-white font-medium" : "text-slate-700 hover:bg-slate-100"}`}
+                                            className={`block rounded px-2 py-1 text-xs transition-colors ${limit === val ? "bg-red-600 text-white font-medium" : "text-gray-400 hover:bg-slate-800 hover:text-white"}`}
                                         >
                                             {val}
                                         </Link>
@@ -147,8 +147,8 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                             </div>
 
                             {/* Sort Order */}
-                            <div className="border-b pb-4">
-                                <h3 className="mb-3 text-sm font-semibold text-slate-900">Order</h3>
+                            <div className="border-b border-slate-700 pb-4">
+                                <h3 className="mb-3 text-sm font-semibold text-red-400">Order</h3>
                                 <div className="space-y-2">
                                     {[
                                         { label: "Descending (↓)", value: "desc" },
@@ -157,7 +157,7 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                                         <Link
                                             key={option.value}
                                             href={`/media?${buildQueryString({ sortOrder: option.value, page: "1" })}`}
-                                            className={`block rounded px-2 py-1 text-xs transition-colors ${sortOrder === option.value ? "bg-primary text-white font-medium" : "text-slate-700 hover:bg-slate-100"}`}
+                                            className={`block rounded px-2 py-1 text-xs transition-colors ${sortOrder === option.value ? "bg-red-600 text-white font-medium" : "text-gray-400 hover:bg-slate-800 hover:text-white"}`}
                                         >
                                             {option.label}
                                         </Link>
@@ -167,7 +167,7 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
 
                             {/* Clear Filters */}
                             {(searchTerm || selectedType || sortBy !== "createdAt" || sortOrder !== "desc" || releaseYear) && (
-                                <Link href="/media" className="block w-full rounded bg-slate-100 px-3 py-2 text-center text-xs font-medium text-slate-700 hover:bg-slate-200">
+                                <Link href="/media" className="block w-full rounded bg-red-600 px-3 py-2 text-center text-xs font-medium text-white hover:bg-red-700">
                                     Clear filters
                                 </Link>
                             )}
@@ -177,14 +177,14 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                     {/* Main Content */}
                     <div className="flex-1">
                         {mediaResult.data.length === 0 ? (
-                            <div className="rounded-xl border bg-white p-8 text-center text-muted-foreground">
+                            <div className="rounded-xl border border-slate-800 bg-slate-900 p-8 text-center text-gray-400">
                                 No media found.
                             </div>
                         ) : (
                             <>
                                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                     {mediaResult.data.map((media) => (
-                                        <Card key={media.id} className="h-full">
+                                        <Card key={media.id} className="h-full border-slate-800 bg-slate-900">
                                             {media.imageUrl ? (
                                                 <Image
                                                     src={media.imageUrl}
@@ -195,28 +195,28 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                                                     className="h-44 w-full object-cover"
                                                 />
                                             ) : (
-                                                <div className="flex h-44 w-full items-center justify-center bg-slate-200 text-xs text-slate-600">
+                                                <div className="flex h-44 w-full items-center justify-center bg-slate-800 text-xs text-gray-500">
                                                     No image available
                                                 </div>
                                             )}
                                             <CardHeader>
-                                                <CardTitle className="line-clamp-1">{media.title}</CardTitle>
+                                                <CardTitle className="line-clamp-1 text-white">{media.title}</CardTitle>
                                             </CardHeader>
                                             <CardContent>
-                                                <p className="line-clamp-3 text-xs text-muted-foreground">{media.description}</p>
+                                                <p className="line-clamp-3 text-xs text-gray-400">{media.description}</p>
                                                 <div className="mt-3 flex flex-wrap gap-1">
                                                     {media.genres.slice(0, 2).map((genre) => (
-                                                        <Badge key={genre} variant="secondary" className="text-[10px]">{genre}</Badge>
+                                                        <Badge key={genre} variant="secondary" className="bg-slate-800 text-gray-300 text-[10px]">{genre}</Badge>
                                                     ))}
                                                 </div>
-                                                <p className="mt-3 text-xs text-muted-foreground">{media.releaseYear} • {media.type}</p>
-                                                <p className="mt-1 text-xs text-muted-foreground">
-                                                    ⭐ {media.avgRating ?? "N/A"} • {media.reviews?.length ?? 0} review(s)
+                                                <p className="mt-3 text-xs text-gray-400">{media.releaseYear} • {media.type}</p>
+                                                <p className="mt-1 text-xs text-gray-400">
+                                                    ⭐ <span className="text-red-400">{media.avgRating ?? "N/A"}</span> • {media.reviews?.length ?? 0} review(s)
                                                 </p>
                                             </CardContent>
-                                            <CardFooter className="justify-between">
-                                                <Badge variant="outline">{media.pricing}</Badge>
-                                                <Link href={`/media/${media.id}`} className="text-xs font-medium text-primary hover:underline">View</Link>
+                                            <CardFooter className="justify-between border-t border-slate-800">
+                                                <Badge variant="outline" className="border-slate-700 text-gray-300">{media.pricing}</Badge>
+                                                <Link href={`/media/${media.id}`} className="text-xs font-medium text-red-400 hover:text-red-300">View</Link>
                                             </CardFooter>
                                         </Card>
                                     ))}
@@ -227,7 +227,7 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                                     {currentPage > 1 && (
                                         <Link
                                             href={`/media?${buildQueryString({ page: (currentPage - 1).toString() })}`}
-                                            className="flex items-center gap-1 rounded border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50"
+                                            className="flex items-center gap-1 rounded border border-slate-700 px-3 py-2 text-sm text-gray-400 hover:bg-slate-800 hover:text-red-400"
                                         >
                                             <ChevronLeft className="h-4 w-4" />
                                             Previous
@@ -237,7 +237,7 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                                     {mediaResult.data.length === limit && (
                                         <Link
                                             href={`/media?${buildQueryString({ page: (currentPage + 1).toString() })}`}
-                                            className="flex items-center gap-1 rounded border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50"
+                                            className="flex items-center gap-1 rounded border border-slate-700 px-3 py-2 text-sm text-gray-400 hover:bg-slate-800 hover:text-red-400"
                                         >
                                             Next
                                             <ChevronRight className="h-4 w-4" />

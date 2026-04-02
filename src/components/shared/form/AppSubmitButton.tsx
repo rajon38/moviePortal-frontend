@@ -23,7 +23,7 @@ const AppSubmitButton =({
         <Button
         type="submit"
         disabled={isDisabled}
-        className={cn("w-full", className)}
+        className={cn("w-full bg-red-600 hover:bg-red-700 text-white disabled:opacity-50", className)}
         >
             {isPending ? (
                 <>

@@ -10,6 +10,7 @@ import { IChangePasswordPayload, changePasswordZodSchema } from "@/zod/auth.vali
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import AuthWrapper from "@/components/shared/AuthWrapper";
 
 const ChangePasswordForm = () => {
     const [serverError, setServerError] = useState<string | null>(null);
@@ -40,59 +41,28 @@ const ChangePasswordForm = () => {
     });
 
     return (
-        <Card className="w-full max-w-xl mx-auto shadow-md">
-            <CardHeader>
-                <CardTitle>Change Password</CardTitle>
-                <CardDescription>Update your password securely.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <form
-                    noValidate
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        form.handleSubmit();
-                    }}
-                    className="space-y-4"
-                >
-                    <form.Field name="currentPassword" validators={{ onChange: changePasswordZodSchema.shape.currentPassword }}>
-                        {(field) => (
-                            <AppField field={field} label="Current Password" type="password" placeholder="Enter current password" />
-                        )}
-                    </form.Field>
+        <AuthWrapper>
+            <Card className="w-full max-w-xl mx-auto bg-black/60 backdrop-blur-xl border border-white/10">
+                <CardHeader>
+                    <CardTitle className="text-white">Change Password</CardTitle>
+                </CardHeader>
 
-                    <form.Field name="newPassword" validators={{ onChange: changePasswordZodSchema.shape.newPassword }}>
-                        {(field) => (
-                            <AppField field={field} label="New Password" type="password" placeholder="Enter new password" />
-                        )}
-                    </form.Field>
+                <CardContent>
+                    <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }} className="space-y-4">
 
-                    <form.Field name="confirmPassword" validators={{ onChange: changePasswordZodSchema.shape.confirmPassword }}>
-                        {(field) => (
-                            <AppField field={field} label="Confirm New Password" type="password" placeholder="Re-enter new password" />
-                        )}
-                    </form.Field>
+                        <form.Field name="currentPassword">{(f) => <AppField field={f} label="Current Password" type="password" />}</form.Field>
+                        <form.Field name="newPassword">{(f) => <AppField field={f} label="New Password" type="password" />}</form.Field>
+                        <form.Field name="confirmPassword">{(f) => <AppField field={f} label="Confirm Password" type="password" />}</form.Field>
 
-                    {serverError && (
-                        <Alert variant="destructive">
-                            <AlertDescription>{serverError}</AlertDescription>
-                        </Alert>
-                    )}
+                        {serverError && <Alert variant="destructive"><AlertDescription>{serverError}</AlertDescription></Alert>}
 
-                    <form.Subscribe selector={(s) => [s.canSubmit, s.isSubmitting] as const}>
-                        {([canSubmit, isSubmitting]) => (
-                            <AppSubmitButton
-                                isPending={isSubmitting || isPending}
-                                pendingLabel="Saving..."
-                                disabled={!canSubmit}
-                            >
-                                Save Password
-                            </AppSubmitButton>
-                        )}
-                    </form.Subscribe>
-                </form>
-            </CardContent>
-        </Card>
+                        <AppSubmitButton isPending={isPending}>
+                            Save Password
+                        </AppSubmitButton>
+                    </form>
+                </CardContent>
+            </Card>
+        </AuthWrapper>
     );
 };
 

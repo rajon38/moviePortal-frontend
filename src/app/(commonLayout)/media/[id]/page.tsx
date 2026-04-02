@@ -21,18 +21,18 @@ const MediaDetailPage = async ({ params }: MediaDetailPageProps) => {
     const visibleReviews = (media.reviews || []).filter((review) => !review.isDeleted);
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-950 text-white">
             <div className="mx-auto w-full max-w-5xl px-6 py-10">
-                <Link href="/media" className="text-sm text-primary hover:underline">← Back to media</Link>
+                <Link href="/media" className="text-sm text-gray-400 hover:text-red-400 transition-colors">← Back to media</Link>
 
-                <Card className="mt-4">
+                <Card className="mt-4 border-slate-800 bg-slate-900">
                     <CardHeader>
                         <div className="flex flex-wrap items-center gap-2">
-                            <Badge>{media.type}</Badge>
-                            <Badge variant="secondary">{media.pricing}</Badge>
-                            <Badge variant="outline">{media.releaseYear}</Badge>
+                            <Badge className="bg-red-600 hover:bg-red-700">{media.type}</Badge>
+                            <Badge variant="secondary" className="bg-slate-800 text-gray-300">{media.pricing}</Badge>
+                            <Badge variant="outline" className="border-slate-700 text-gray-400">{media.releaseYear}</Badge>
                         </div>
-                        <CardTitle className="text-3xl">{media.title}</CardTitle>
+                        <CardTitle className="text-3xl text-white">{media.title}</CardTitle>
                     </CardHeader>
 
                     <CardContent className="space-y-6">
@@ -47,70 +47,70 @@ const MediaDetailPage = async ({ params }: MediaDetailPageProps) => {
                             />
                         ) : null}
 
-                        <p className="text-sm leading-7 text-muted-foreground">{media.description}</p>
+                        <p className="text-sm leading-7 text-gray-400">{media.description}</p>
 
-                        <div className="grid gap-3 rounded-lg border bg-muted/40 p-4 md:grid-cols-4">
+                        <div className="grid gap-3 rounded-lg border border-slate-800 bg-slate-800/50 p-4 md:grid-cols-4">
                             <div>
-                                <p className="text-xs text-muted-foreground">Average Rating</p>
-                                <p className="font-semibold">{media.avgRating ?? "N/A"}</p>
+                                <p className="text-xs text-gray-400">Average Rating</p>
+                                <p className="font-semibold text-red-400">⭐ {media.avgRating ?? "N/A"}</p>
                             </div>
                             <div>
-                                <p className="text-xs text-muted-foreground">Reviews</p>
-                                <p className="font-semibold">{visibleReviews.length}</p>
+                                <p className="text-xs text-gray-400">Reviews</p>
+                                <p className="font-semibold text-white">{visibleReviews.length}</p>
                             </div>
                             <div>
-                                <p className="text-xs text-muted-foreground">Pricing</p>
-                                <p className="font-semibold">{media.pricing}</p>
+                                <p className="text-xs text-gray-400">Pricing</p>
+                                <p className="font-semibold text-white">{media.pricing}</p>
                             </div>
                             <div>
-                                <p className="text-xs text-muted-foreground">Price</p>
-                                <p className="font-semibold">{media.price ?? 0}</p>
+                                <p className="text-xs text-gray-400">Price</p>
+                                <p className="font-semibold text-red-500">${media.price ?? 0}</p>
                             </div>
                         </div>
 
                         <div className="grid gap-4 md:grid-cols-2">
                             <div>
-                                <h3 className="font-semibold">Director</h3>
-                                <p className="mt-1 text-sm text-muted-foreground">{media.director}</p>
+                                <h3 className="font-semibold text-red-400">Director</h3>
+                                <p className="mt-1 text-sm text-gray-300">{media.director}</p>
                             </div>
                             <div>
-                                <h3 className="font-semibold">Cast</h3>
-                                <p className="mt-1 text-sm text-muted-foreground">{media.cast.join(", ")}</p>
+                                <h3 className="font-semibold text-red-400">Cast</h3>
+                                <p className="mt-1 text-sm text-gray-300">{media.cast.join(", ")}</p>
                             </div>
                             <div>
-                                <h3 className="font-semibold">Genres</h3>
-                                <p className="mt-1 text-sm text-muted-foreground">{media.genres.join(", ")}</p>
+                                <h3 className="font-semibold text-red-400">Genres</h3>
+                                <p className="mt-1 text-sm text-gray-300">{media.genres.join(", ")}</p>
                             </div>
                             <div>
-                                <h3 className="font-semibold">Platforms</h3>
-                                <p className="mt-1 text-sm text-muted-foreground">{media.platform.join(", ")}</p>
+                                <h3 className="font-semibold text-red-400">Platforms</h3>
+                                <p className="mt-1 text-sm text-gray-300">{media.platform.join(", ")}</p>
                             </div>
                         </div>
 
                         {media.youtubeLink && (
                             <div>
-                                <h3 className="mb-2 font-semibold">Trailer</h3>
+                                <h3 className="mb-2 font-semibold text-red-400">Trailer</h3>
                                 <Link href={media.youtubeLink} target="_blank" rel="noreferrer">
-                                    <Button>Watch on YouTube</Button>
+                                    <Button className="bg-red-600 hover:bg-red-700 text-white">Watch on YouTube</Button>
                                 </Link>
                             </div>
                         )}
 
                         <div>
-                            <h3 className="mb-3 font-semibold">Latest Reviews</h3>
+                            <h3 className="mb-3 font-semibold text-red-400">Latest Reviews</h3>
 
                             {visibleReviews.length === 0 ? (
-                                <p className="text-sm text-muted-foreground">No reviews yet.</p>
+                                <p className="text-sm text-gray-400">No reviews yet.</p>
                             ) : (
                                 <div className="space-y-3">
                                     {visibleReviews.slice(0, 5).map((review) => (
-                                        <div key={review.id} className="rounded-lg border bg-white p-3">
+                                        <div key={review.id} className="rounded-lg border border-slate-800 bg-slate-800 p-3">
                                             <div className="flex items-center justify-between">
-                                                <p className="text-sm font-medium">{review.user?.name || "Anonymous"}</p>
-                                                <p className="text-xs text-muted-foreground">⭐ {review.rating}/5</p>
+                                                <p className="text-sm font-medium text-white">{review.user?.name || "Anonymous"}</p>
+                                                <p className="text-xs text-red-400">⭐ {review.rating}/5</p>
                                             </div>
-                                            <p className="mt-1 text-sm text-muted-foreground">{review.content}</p>
-                                            <p className="mt-2 text-xs text-muted-foreground">
+                                            <p className="mt-1 text-sm text-gray-300">{review.content}</p>
+                                            <p className="mt-2 text-xs text-gray-400">
                                                 👍 {review._count?.likes ?? 0} • 💬 {review._count?.comments ?? 0}
                                             </p>
                                         </div>

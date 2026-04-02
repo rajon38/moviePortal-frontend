@@ -11,6 +11,7 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
+import AuthWrapper from "@/components/shared/AuthWrapper";
 
 interface ResetPasswordFormProps {
     email?: string;
@@ -45,96 +46,30 @@ const ResetPasswordForm = ({ email = "" }: ResetPasswordFormProps) => {
         },
     });
 
-    return (
-        <Card className="w-full max-w-md mx-auto shadow-md">
-            <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold">Reset Password</CardTitle>
-                <CardDescription>
-                    Enter OTP and your new password.
-                </CardDescription>
-            </CardHeader>
+     return (
+        <AuthWrapper>
+            <Card className="w-full max-w-md mx-auto bg-black/60 backdrop-blur-xl border border-white/10">
+                <CardHeader className="text-center">
+                    <CardTitle className="text-white">Reset Password</CardTitle>
+                </CardHeader>
 
-            <CardContent>
-                <form
-                    noValidate
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        form.handleSubmit();
-                    }}
-                    className="space-y-4"
-                >
-                    <form.Field name="email" validators={{ onChange: resetPasswordZodSchema.shape.email }}>
-                        {(field) => (
-                            <AppField
-                                field={field}
-                                label="Email"
-                                type="email"
-                                placeholder="Enter your email"
-                            />
-                        )}
-                    </form.Field>
+                <CardContent>
+                    <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }} className="space-y-4">
 
-                    <form.Field name="otp" validators={{ onChange: resetPasswordZodSchema.shape.otp }}>
-                        {(field) => (
-                            <AppField
-                                field={field}
-                                label="OTP"
-                                type="text"
-                                placeholder="Enter 6-digit OTP"
-                            />
-                        )}
-                    </form.Field>
+                        <form.Field name="email">{(f) => <AppField field={f} label="Email" />}</form.Field>
+                        <form.Field name="otp">{(f) => <AppField field={f} label="OTP" />}</form.Field>
+                        <form.Field name="newPassword">{(f) => <AppField field={f} label="New Password" type="password" />}</form.Field>
+                        <form.Field name="confirmPassword">{(f) => <AppField field={f} label="Confirm Password" type="password" />}</form.Field>
 
-                    <form.Field name="newPassword" validators={{ onChange: resetPasswordZodSchema.shape.newPassword }}>
-                        {(field) => (
-                            <AppField
-                                field={field}
-                                label="New Password"
-                                type="password"
-                                placeholder="Enter new password"
-                            />
-                        )}
-                    </form.Field>
+                        {serverError && <Alert variant="destructive"><AlertDescription>{serverError}</AlertDescription></Alert>}
 
-                    <form.Field name="confirmPassword" validators={{ onChange: resetPasswordZodSchema.shape.confirmPassword }}>
-                        {(field) => (
-                            <AppField
-                                field={field}
-                                label="Confirm Password"
-                                type="password"
-                                placeholder="Re-enter new password"
-                            />
-                        )}
-                    </form.Field>
-
-                    {serverError && (
-                        <Alert variant="destructive">
-                            <AlertDescription>{serverError}</AlertDescription>
-                        </Alert>
-                    )}
-
-                    <form.Subscribe selector={(s) => [s.canSubmit, s.isSubmitting] as const}>
-                        {([canSubmit, isSubmitting]) => (
-                            <AppSubmitButton
-                                isPending={isSubmitting || isPending}
-                                pendingLabel="Updating password..."
-                                disabled={!canSubmit}
-                            >
-                                Reset Password
-                            </AppSubmitButton>
-                        )}
-                    </form.Subscribe>
-                </form>
-            </CardContent>
-
-            <CardFooter className="justify-center border-t pt-4 text-sm text-muted-foreground">
-                Back to{" "}
-                <Link href="/login" className="text-primary font-medium hover:underline underline-offset-4">
-                    Sign in
-                </Link>
-            </CardFooter>
-        </Card>
+                        <AppSubmitButton isPending={isPending}>
+                            Reset Password
+                        </AppSubmitButton>
+                    </form>
+                </CardContent>
+            </Card>
+        </AuthWrapper>
     );
 };
 

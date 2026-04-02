@@ -46,7 +46,7 @@ const AppField = ({
     <div className={cn("space-y-1.5", className)}>
         <Label
             htmlFor={field.name}
-            className={cn(hasError && "text-destructive")}
+            className={cn("text-white", hasError && "text-destructive")}
         >
             {label}
         </Label>
@@ -70,6 +70,7 @@ const AppField = ({
                 aria-invalid={hasError}
                 aria-describedby={hasError ? `${field.name}-error` : undefined}
                 className={cn(
+                    "bg-slate-900 text-white placeholder-gray-500 border-slate-700",
                     prepend && "pl-10",
                     append && "pr-10",
                     hasError && "border-destructive focus-visible:ring-destructive/20",

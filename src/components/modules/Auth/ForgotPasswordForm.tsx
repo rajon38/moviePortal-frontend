@@ -11,6 +11,7 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
+import AuthWrapper from "@/components/shared/AuthWrapper";
 
 const ForgotPasswordForm = () => {
     const [serverError, setServerError] = useState<string | null>(null);
@@ -39,62 +40,33 @@ const ForgotPasswordForm = () => {
     });
 
     return (
-        <Card className="w-full max-w-md mx-auto shadow-md">
-            <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold">Forgot Password</CardTitle>
-                <CardDescription>
-                    Enter your email to receive a reset code.
-                </CardDescription>
-            </CardHeader>
+        <AuthWrapper>
+            <Card className="w-full max-w-md mx-auto bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl">
+                <CardHeader className="text-center">
+                    <CardTitle className="text-2xl text-white">Forgot Password</CardTitle>
+                    <CardDescription className="text-gray-400">
+                        Enter your email to receive a reset code
+                    </CardDescription>
+                </CardHeader>
 
-            <CardContent>
-                <form
-                    noValidate
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        form.handleSubmit();
-                    }}
-                    className="space-y-4"
-                >
-                    <form.Field name="email" validators={{ onChange: forgotPasswordZodSchema.shape.email }}>
-                        {(field) => (
-                            <AppField
-                                field={field}
-                                label="Email"
-                                type="email"
-                                placeholder="Enter your email"
-                            />
-                        )}
-                    </form.Field>
+                <CardContent>
+                    <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }} className="space-y-4">
 
-                    {serverError && (
-                        <Alert variant="destructive">
-                            <AlertDescription>{serverError}</AlertDescription>
-                        </Alert>
-                    )}
+                        <form.Field name="email" validators={{ onChange: forgotPasswordZodSchema.shape.email }}>
+                            {(field) => (
+                                <AppField field={field} label="Email" type="email" />
+                            )}
+                        </form.Field>
 
-                    <form.Subscribe selector={(s) => [s.canSubmit, s.isSubmitting] as const}>
-                        {([canSubmit, isSubmitting]) => (
-                            <AppSubmitButton
-                                isPending={isSubmitting || isPending}
-                                pendingLabel="Sending code..."
-                                disabled={!canSubmit}
-                            >
-                                Send Reset Code
-                            </AppSubmitButton>
-                        )}
-                    </form.Subscribe>
-                </form>
-            </CardContent>
+                        {serverError && <Alert variant="destructive"><AlertDescription>{serverError}</AlertDescription></Alert>}
 
-            <CardFooter className="justify-center border-t pt-4 text-sm text-muted-foreground">
-                Remember your password?{" "}
-                <Link href="/login" className="text-primary font-medium hover:underline underline-offset-4">
-                    Sign in
-                </Link>
-            </CardFooter>
-        </Card>
+                        <AppSubmitButton isPending={isPending}>
+                            Send Reset Code
+                        </AppSubmitButton>
+                    </form>
+                </CardContent>
+            </Card>
+        </AuthWrapper>
     );
 };
 
