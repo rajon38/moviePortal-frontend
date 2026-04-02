@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { deleteCookie } from "@/lib/cookieUtils";
+import { logoutAction as sharedLogoutAction } from "@/actions/auth.actions";
 import { httpClient } from "@/lib/axios/httpClient";
 import { ApiErrorResponse } from "@/types/api.types";
 import { IUpdateProfileResponse, IUserProfile } from "@/types/auth.types";
 import { IUpdateProfilePayload, updateProfileZodSchema } from "@/zod/auth.validation";
-import { redirect } from "next/navigation";
 
 export const updateProfileAction = async (payload: IUpdateProfilePayload): Promise<IUpdateProfileResponse | ApiErrorResponse> => {
     const parsedPayload = updateProfileZodSchema.safeParse(payload);
@@ -36,19 +35,7 @@ export const updateProfileAction = async (payload: IUpdateProfilePayload): Promi
 };
 
 export const logoutAction = async (): Promise<void> => {
-    try {
-        await httpClient.post("/auth/logout", {});
-    } catch (error) {
-        console.error("Logout request failed:", error);
-    }
-
-    await Promise.all([
-        deleteCookie("accessToken"),
-        deleteCookie("refreshToken"),
-        deleteCookie("better-auth.session_token"),
-    ]);
-
-    redirect("/login");
+    await sharedLogoutAction();
 };
 
 export const getMyProfileAction = async (): Promise<IUserProfile | null> => {
