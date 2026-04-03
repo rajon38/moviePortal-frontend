@@ -5,8 +5,8 @@ import { changePasswordAction } from "@/app/(dashboardLayout)/(commonProtectedLa
 import AppField from "@/components/shared/form/AppField";
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { IChangePasswordPayload, changePasswordZodSchema } from "@/zod/auth.validation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { IChangePasswordPayload } from "@/zod/auth.validation";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";

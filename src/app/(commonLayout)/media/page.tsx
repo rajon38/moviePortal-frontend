@@ -1,10 +1,8 @@
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getMediaList } from "@/services/media.services";
 import { MediaType } from "@/types/media.types";
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import MediaCard from "@/components/features/media/MediaCard";
 
 interface MediaPageProps {
     searchParams: Promise<{
@@ -104,7 +102,7 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                             <div className="border-b border-slate-700 pb-4">
                                 <h3 className="mb-3 text-sm font-semibold text-red-400">Pagination</h3>
                                 <div className="space-y-2 text-xs text-gray-400">
-                                    <p>Page <span className="font-semibold text-white">{currentPage}</span> of <span className="font-semibold text-white">{Math.ceil(mediaResult.meta?.total || 0 / limit)}</span></p>
+                                    <p>Page <span className="font-semibold text-white">{currentPage}</span> of <span className="font-semibold text-white">{Math.ceil((mediaResult.meta?.total || 0) / limit)}</span></p>
                                     <p>Total <span className="font-semibold text-white">{mediaResult.meta?.total || 0}</span> items</p>
                                 </div>
                             </div>
@@ -184,41 +182,7 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
                             <>
                                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                     {mediaResult.data.map((media) => (
-                                        <Card key={media.id} className="h-full border-slate-800 bg-slate-900">
-                                            {media.imageUrl ? (
-                                                <Image
-                                                    src={media.imageUrl}
-                                                    alt={media.title}
-                                                    width={640}
-                                                    height={360}
-                                                    unoptimized
-                                                    className="h-44 w-full object-cover"
-                                                />
-                                            ) : (
-                                                <div className="flex h-44 w-full items-center justify-center bg-slate-800 text-xs text-gray-500">
-                                                    No image available
-                                                </div>
-                                            )}
-                                            <CardHeader>
-                                                <CardTitle className="line-clamp-1 text-white">{media.title}</CardTitle>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <p className="line-clamp-3 text-xs text-gray-400">{media.description}</p>
-                                                <div className="mt-3 flex flex-wrap gap-1">
-                                                    {media.genres.slice(0, 2).map((genre) => (
-                                                        <Badge key={genre} variant="secondary" className="bg-slate-800 text-gray-300 text-[10px]">{genre}</Badge>
-                                                    ))}
-                                                </div>
-                                                <p className="mt-3 text-xs text-gray-400">{media.releaseYear} • {media.type}</p>
-                                                <p className="mt-1 text-xs text-gray-400">
-                                                    ⭐ <span className="text-red-400">{media.avgRating ?? "N/A"}</span> • {media.reviews?.length ?? 0} review(s)
-                                                </p>
-                                            </CardContent>
-                                            <CardFooter className="justify-between border-t border-slate-800">
-                                                <Badge variant="outline" className="border-slate-700 text-gray-300">{media.pricing}</Badge>
-                                                <Link href={`/media/${media.id}`} className="text-xs font-medium text-red-400 hover:text-red-300">View</Link>
-                                            </CardFooter>
-                                        </Card>
+                                        <MediaCard key={media.id} media={media} />
                                     ))}
                                 </div>
 

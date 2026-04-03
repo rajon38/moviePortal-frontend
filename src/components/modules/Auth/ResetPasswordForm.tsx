@@ -5,11 +5,10 @@ import { resetPasswordAction } from "@/app/(commonLayout)/(auth)/reset-password/
 import AppField from "@/components/shared/form/AppField";
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { IResetPasswordPayload, resetPasswordZodSchema } from "@/zod/auth.validation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { IResetPasswordPayload } from "@/zod/auth.validation";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
 import { useState } from "react";
 import AuthWrapper from "@/components/shared/AuthWrapper";
 

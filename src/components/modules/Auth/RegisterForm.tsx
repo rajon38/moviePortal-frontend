@@ -10,6 +10,7 @@ import { IRegisterPayload, registerZodSchema } from "@/zod/auth.validation";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -50,10 +51,12 @@ const RegisterForm = () => {
     <div className="relative min-h-screen flex items-center justify-center">
       {/* 🎬 Background */}
       <div className="absolute inset-0">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?w=1600"
-          className="w-full h-full object-cover"
+          className="object-cover"
           alt="background"
+          fill
+          priority
         />
         <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
       </div>

@@ -4,6 +4,7 @@ import { getMediaList } from "@/services/media.services";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, Play, Plus } from "lucide-react";
+import MediaCard from "@/components/features/media/MediaCard";
 
 export default async function Home() {
   const movieResult = await getMediaList({ type: "MOVIE", limit: 8 });
@@ -65,53 +66,7 @@ export default async function Home() {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {movieResult.data.map((media) => (
-              <Link key={media.id} href={`/media/${media.id}`}>
-                <div className="group relative overflow-hidden rounded-lg bg-slate-800 transition-transform hover:scale-105">
-                  {/* Image */}
-                  <div className="relative h-64 w-full overflow-hidden bg-slate-700">
-                    {media.imageUrl ? (
-                      <Image
-                        src={media.imageUrl}
-                        alt={media.title}
-                        fill
-                        unoptimized
-                        className="object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-slate-700 to-slate-800">
-                        <span className="text-slate-500">No image</span>
-                      </div>
-                    )}
-                    
-                    {/* Overlay on Hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                    
-                    {/* Play Button */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="rounded-full bg-red-600 p-3 opacity-0 transition-all duration-300 group-hover:opacity-100">
-                        <Play className="h-6 w-6 fill-white text-white" />
-                      </div>
-                    </div>
-
-                    {/* Rating Badge */}
-                    <div className="absolute right-3 top-3 rounded-full bg-black/70 px-3 py-1">
-                      <span className="text-sm font-bold">⭐ {media.avgRating ?? "N/A"}</span>
-                    </div>
-                  </div>
-
-                  {/* Info */}
-                  <div className="p-4">
-                    <h3 className="line-clamp-1 text-sm font-bold">{media.title}</h3>
-                    <p className="mt-1 line-clamp-2 text-xs text-gray-400">{media.description}</p>
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className="text-xs text-gray-500">{media.releaseYear}</span>
-                      <Badge className={media.pricing === "FREE" ? "bg-green-600" : "bg-red-600"}>
-                        {media.pricing}
-                      </Badge>
-                    </div>
-                  </div>
-                </div>
-              </Link>
+              <MediaCard key={media.id} media={media} />
             ))}
           </div>
         </section>
@@ -127,53 +82,7 @@ export default async function Home() {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {seriesResult.data.map((media) => (
-              <Link key={media.id} href={`/media/${media.id}`}>
-                <div className="group relative overflow-hidden rounded-lg bg-slate-800 transition-transform hover:scale-105">
-                  {/* Image */}
-                  <div className="relative h-64 w-full overflow-hidden bg-slate-700">
-                    {media.imageUrl ? (
-                      <Image
-                        src={media.imageUrl}
-                        alt={media.title}
-                        fill
-                        unoptimized
-                        className="object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-slate-700 to-slate-800">
-                        <span className="text-slate-500">No image</span>
-                      </div>
-                    )}
-                    
-                    {/* Overlay on Hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                    
-                    {/* Play Button */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="rounded-full bg-red-600 p-3 opacity-0 transition-all duration-300 group-hover:opacity-100">
-                        <Play className="h-6 w-6 fill-white text-white" />
-                      </div>
-                    </div>
-
-                    {/* Rating Badge */}
-                    <div className="absolute right-3 top-3 rounded-full bg-black/70 px-3 py-1">
-                      <span className="text-sm font-bold">⭐ {media.avgRating ?? "N/A"}</span>
-                    </div>
-                  </div>
-
-                  {/* Info */}
-                  <div className="p-4">
-                    <h3 className="line-clamp-1 text-sm font-bold">{media.title}</h3>
-                    <p className="mt-1 line-clamp-2 text-xs text-gray-400">{media.description}</p>
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className="text-xs text-gray-500">{media.releaseYear}</span>
-                      <Badge className={media.pricing === "FREE" ? "bg-green-600" : "bg-red-600"}>
-                        {media.pricing}
-                      </Badge>
-                    </div>
-                  </div>
-                </div>
-              </Link>
+              <MediaCard key={media.id} media={media} />
             ))}
           </div>
         </section>

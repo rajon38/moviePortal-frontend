@@ -39,7 +39,7 @@ export const loginAction = async (payload : ILoginPayload, redirectPath ?: strin
             //TODO : refactoring
             redirect(`/reset-password?email=${email}`);
         }else{
-            // redirect(redirectPath || "/dashboard");
+            // redirect(redirectPath || "/dashboard" for admin, "/home" for user);
             const targetPath = redirectPath && isValidRedirectForRole(redirectPath, role as UserRole) ? redirectPath : getDefaultDashboardRoute(role as UserRole);
 
             

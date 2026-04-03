@@ -1,13 +1,12 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { logoutAction, updateProfileAction } from "@/app/(dashboardLayout)/(commonProtectedLayout)/my-profile/_action";
+import { updateProfileAction } from "@/app/(dashboardLayout)/(commonProtectedLayout)/my-profile/_action";
 import AppField from "@/components/shared/form/AppField";
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { IUserProfile } from "@/types/auth.types";
 import { IUpdateProfilePayload } from "@/zod/auth.validation";
 import { useForm } from "@tanstack/react-form";
@@ -28,10 +27,6 @@ const MyProfileForm = ({ user }: MyProfileFormProps) => {
 
     const { mutateAsync, isPending } = useMutation({
         mutationFn: (payload: IUpdateProfilePayload) => updateProfileAction(payload),
-    });
-
-    const { mutateAsync: logoutMutate, isPending: isLogoutPending } = useMutation({
-        mutationFn: () => logoutAction(),
     });
 
     const form = useForm({

@@ -5,11 +5,10 @@ import { verifyEmailAction } from "@/app/(commonLayout)/(auth)/verify-email/_act
 import AppField from "@/components/shared/form/AppField";
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { IVerifyEmailPayload, verifyEmailZodSchema } from "@/zod/auth.validation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { IVerifyEmailPayload } from "@/zod/auth.validation";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
 import { useState } from "react";
 import AuthWrapper from "@/components/shared/AuthWrapper";
 
