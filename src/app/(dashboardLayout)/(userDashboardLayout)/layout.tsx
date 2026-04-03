@@ -2,7 +2,7 @@ import Navbar from "@/components/features/navbar/Navbar";
 import { IUserProfile } from "@/types/auth.types";
 import { getUserInfo } from "@/services/auth.services";
 
-export default async function UserDashboardLayout({
+export default async function CommonProtectedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

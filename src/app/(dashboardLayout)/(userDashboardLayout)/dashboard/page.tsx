@@ -2,18 +2,15 @@
 
 import { logoutAction } from "@/app/(dashboardLayout)/(commonProtectedLayout)/my-profile/_action";
 import { getAllWatchlistItems } from "@/services/watchlist.services";
+import { DashboardSidebar } from "@/components/shared/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { LogOut, List, User, Home } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { userNavItems } from "@/lib/navitems";
+import { User, List } from "lucide-react";
 
 const UserDashboardPage = () => {
-    const pathname = usePathname();
-    const [sidebarOpen, setSidebarOpen] = useState(true);
-    
     // Fetch watchlist items count
     const { data: watchlistData } = useQuery({
         queryKey: ["watchlist"],
@@ -28,75 +25,14 @@ const UserDashboardPage = () => {
         mutationFn: () => logoutAction(),
     });
 
-    const menuItems = [
-        { label: "Dashboard", href: "/dashboard", icon: Home },
-        { label: "My Profile", href: "/my-profile", icon: User },
-        { label: "My List", href: "/myList", icon: List },
-    ];
-
-    const isActive = (href: string) => pathname === href;
-
     return (
         <div className="min-h-screen bg-slate-950 text-white flex">
             {/* Sidebar */}
-            <aside className={`${sidebarOpen ? "w-64" : "w-20"} bg-slate-900 border-r border-slate-800 transition-all duration-300 flex flex-col`}>
-                <div className="p-6 border-b border-slate-800">
-                    <Link href="/" className="flex items-center gap-2">
-                        <div className="h-8 w-8 rounded bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center text-white font-black text-sm">
-                            C
-                        </div>
-                        {sidebarOpen && <span className="font-bold text-red-500">CinePlex</span>}
-                    </Link>
-                </div>
-
-                {/* Navigation Menu */}
-                <nav className="flex-1 p-4 space-y-2">
-                    {menuItems.map((item) => {
-                        const Icon = item.icon;
-                        const active = isActive(item.href);
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                                    active
-                                        ? "bg-red-600 text-white"
-                                        : "text-gray-300 hover:bg-slate-800 hover:text-red-400"
-                                }`}
-                            >
-                                <Icon className="h-5 w-5 flex-shrink-0" />
-                                {sidebarOpen && <span className="text-sm font-medium">{item.label}</span>}
-                            </Link>
-                        );
-                    })}
-                </nav>
-
-                {/* Logout Button */}
-                <div className="p-4 border-t border-slate-800">
-                    <Button
-                        onClick={async () => {
-                            await logoutMutate();
-                        }}
-                        disabled={isLogoutPending}
-                        className="w-full flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white"
-                    >
-                        <LogOut className="h-4 w-4" />
-                        {sidebarOpen && (isLogoutPending ? "Logging out..." : "Logout")}
-                    </Button>
-                </div>
-
-                {/* Toggle Sidebar */}
-                <div className="p-4 border-t border-slate-800">
-                    <Button
-                        onClick={() => setSidebarOpen(!sidebarOpen)}
-                        variant="outline"
-                        className="w-full border-slate-700 text-red-500 hover:bg-slate-800"
-                        size="sm"
-                    >
-                        {sidebarOpen ? "←" : "→"}
-                    </Button>
-                </div>
-            </aside>
+            <DashboardSidebar 
+                navSections={userNavItems} 
+                onLogout={logoutMutate}
+                isLogoutPending={isLogoutPending}
+            />
 
             {/* Main Content */}
             <main className="flex-1 overflow-auto">

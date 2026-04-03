@@ -113,9 +113,9 @@ export const userNavItems: NavSection[] = [
     title: "My Content",
     items: [
       {
-        title: "My Library",
-        href: "/user/library",
-        icon: "Film",
+        title: "My Dashboard",
+        href: "/dashboard",
+        icon: "LayoutDashboard",
       },
       {
         title: "Watch History",
@@ -124,7 +124,7 @@ export const userNavItems: NavSection[] = [
       },
       {
         title: "Watchlist",
-        href: "/user/watchlist",
+        href: "/myList",
         icon: "Bookmark",
       },
     ],
